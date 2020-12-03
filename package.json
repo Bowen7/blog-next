@@ -5,6 +5,9 @@
   "repository": "git@github.com:Bowen7/blog-next.git",
   "author": "Bowen7 <771797746@qq.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "node index.js"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",

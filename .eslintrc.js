@@ -5,15 +5,16 @@ module.exports = {
     es6: true,
     node: true,
   },
-  parser: "babel-eslint",
-  extends: ["standard"],
+  parser: 'babel-eslint',
+  extends: ['standard'],
   globals: {},
   parserOptions: {
-    sourceType: "module",
+    sourceType: 'module',
     ecmaVersion: 2018,
   },
   rules: {
-    indent: ["off", "tab"],
-    "space-before-function-paren": 0,
+    'comma-dangle': 0,
+    indent: ['off', 'tab'],
+    'space-before-function-paren': 0,
   },
 }
