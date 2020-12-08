@@ -1,6 +1,5 @@
 import Head from 'next/head'
-import Test, { meta } from '../source/test.mdx'
-console.log(meta)
+import Test from '../source/test.mdx'
 export default function Home() {
   return (
     <div className="container">
