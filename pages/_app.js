@@ -1,4 +1,5 @@
 import './globals.css'
+import './prism.css'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

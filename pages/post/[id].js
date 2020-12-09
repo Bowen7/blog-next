@@ -1,13 +1,52 @@
-import { useRouter } from 'next/router'
-// export async function getStaticProps(context) {
-//   console.log(context)
-//   return {
-//     props: {}
-//   }
-// }
-function Post() {
-  const router = useRouter()
-  const { id } = router.query
-  return <div>post: {id}</div>
+import styled from 'styled-components'
+import path from 'path'
+import Head from 'next/head'
+
+const sourceContext = require.context('../../source', false, /\.mdx$/)
+const sourceMap = {}
+sourceContext.keys().forEach((key) => {
+  if (path.extname(key) === '.mdx') {
+    const id = path.basename(key, '.mdx')
+    sourceMap[id] = sourceContext(key)
+  }
+})
+
+const Article = styled.article`
+  max-width: 60ch;
+  margin: 0 auto;
+`
+export async function getStaticProps(context) {
+  const { params } = context
+  const { id } = params
+  return {
+    props: { id }
+  }
+}
+export async function getStaticPaths() {
+  const paths = sourceContext.keys().map((item) => ({
+    params: {
+      id: path.basename(item, '.mdx')
+    }
+  }))
+  return {
+    paths,
+    fallback: false
+  }
+}
+function Post({ id }) {
+  const MDX = sourceMap[id].default
+  const { title } = sourceMap[id].meta
+
+  return (
+    <>
+      <Head>
+        <base target="_blank" />
+      </Head>
+      <Article>
+        <h1>{title}</h1>
+        <MDX />
+      </Article>
+    </>
+  )
 }
 export default Post
