@@ -15,7 +15,7 @@ function shuffle(array) {
 
 ### V8 sort
 
-从v8 blog([https://v8.dev/blog/array-sort](https://v8.dev/blog/array-sort))上可以看到，v8 sort现在是采用Timsort算法，TimSort算法是一种起源于归并排序和插入排序的混合排序算法；而在以前，则是采用插入排序(长度小于10时)+快排的算法
+从v8 blog[https://v8.dev/blog/array-sort](https://v8.dev/blog/array-sort)上可以看到，v8 sort现在是采用Timsort算法，TimSort算法是一种起源于归并排序和插入排序的混合排序算法；而在以前，则是采用插入排序(长度小于10时)+快排的算法
 
 既然怎样都跑不开插入排序，那就以插入排序为排序算法，以数组`[1, 2, 3]` 为样例，计算得出通过random sort后得到`[1, 2, 3]`的概率为25%（第一次插入得到`[1, 2]`概率为50%，得到`[1, 2]`后3直接插入队尾的概率为50%），而我们知道，真正的随机算法得到`[1, 2, 3]`的概率应该为1/6
 

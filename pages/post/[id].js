@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import path from 'path'
 import Head from 'next/head'
 
@@ -11,10 +11,6 @@ sourceContext.keys().forEach((key) => {
   }
 })
 
-const Article = styled.article`
-  max-width: 60ch;
-  margin: 0 auto;
-`
 export async function getStaticProps(context) {
   const { params } = context
   const { id } = params
@@ -42,10 +38,10 @@ function Post({ id }) {
       <Head>
         <base target="_blank" />
       </Head>
-      <Article>
+      <article>
         <h1>{title}</h1>
         <MDX />
-      </Article>
+      </article>
     </>
   )
 }
