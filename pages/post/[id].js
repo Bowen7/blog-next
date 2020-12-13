@@ -1,6 +1,7 @@
 // import styled from 'styled-components'
 import path from 'path'
 import Head from 'next/head'
+import PostLayout from '../../components/postLayout'
 
 const sourceContext = require.context('../../source', false, /\.mdx$/)
 const sourceMap = {}
@@ -30,18 +31,17 @@ export async function getStaticPaths() {
   }
 }
 function Post({ id }) {
-  const MDX = sourceMap[id].default
-  const { title } = sourceMap[id].meta
+  const source = sourceMap[id]
+  const { default: MDX, meta } = source
 
   return (
     <>
       <Head>
         <base target="_blank" />
       </Head>
-      <article>
-        <h1>{title}</h1>
+      <PostLayout meta={meta}>
         <MDX />
-      </article>
+      </PostLayout>
     </>
   )
 }

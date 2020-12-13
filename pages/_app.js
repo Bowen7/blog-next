@@ -5,7 +5,7 @@ import './globals.css'
 import './prism.css'
 
 const Wrapper = styled.div`
-  max-width: 70ch;
+  max-width: 60ch;
   margin: 0 auto;
 `
 

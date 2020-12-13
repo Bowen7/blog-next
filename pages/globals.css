@@ -148,11 +148,6 @@ h1 {
   line-height: 1.5;
   font-weight: 700;
   text-align: center;
-  border-color: #e2e8f0;
-  border-width: 0 0 1px 0;
-  border-style: solid;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 h2 {
@@ -235,7 +230,12 @@ blockquote *:first-child {
 blockquote *:last-child {
   margin-bottom: 0;
 }
-/* ::selection {
-  background-color: #79ffe1;
-  color: #fff;
-} */
+
+::selection {
+  background-color: #bfbfbf;
+}
+
+time {
+  font-size: 0.875rem;
+  color: #696969;
+}
