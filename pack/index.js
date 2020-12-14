@@ -20,23 +20,23 @@ const produceJson = async () => {
   metas.sort(({ time: time1 }, { time: time2 }) => {
     return time2 - time1
   })
-  const metaList = []
+  const postList = []
   let curYear = ''
   metas.forEach((meta) => {
     const { time } = meta
     const year = time.slice(0, 4)
     if (year !== curYear) {
       curYear = year
-      metaList.push({
+      postList.push({
         year,
-        metas: []
+        posts: []
       })
     }
-    metaList[metaList.length - 1].metas.push(meta)
+    postList[postList.length - 1].posts.push(meta)
   })
   await fs.writeFile(
     resolve(distPath, './index.json'),
-    JSON.stringify(metaList)
+    JSON.stringify(postList)
   )
 }
 

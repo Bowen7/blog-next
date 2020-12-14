@@ -2,10 +2,7 @@ import Link from 'next/link'
 import { MDXProvider } from '@mdx-js/react'
 import styled from 'styled-components'
 import CodePre from '../CodePre'
-const Hr = styled.hr`
-  border: 0 solid #e2e8f0;
-  border-top-width: 1px;
-`
+import { timeFormat } from '../../utils'
 const Info = styled.div`
   display: flex;
   justify-content: space-between;
@@ -25,10 +22,10 @@ function PostLayout({ children, meta = {} }) {
     <article>
       <h1>{title}</h1>
       <Info>
-        <time>{time}</time>
+        <time>{timeFormat(time)}</time>
         <Link href="/">首页</Link>
       </Info>
-      <Hr></Hr>
+      <hr />
       <MDXProvider components={components}>{children}</MDXProvider>
     </article>
   )

@@ -181,7 +181,8 @@ h6 {
 }
 
 hr {
-  border-color: #eaeaea;
+  border: 0 solid #e2e8f0;
+  border-top-width: 1px;
 }
 
 details {
