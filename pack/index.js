@@ -6,17 +6,17 @@ const { resolve, join, basename } = require('path')
 const createMdifyPlugin = require('./mdify')
 const createMetaPlugin = require('./meta')
 const sourcePath = resolve(process.cwd(), './source')
-const distPath = resolve(process.cwd(), './destt')
+// const distPath = resolve(process.cwd(), './destt')
 
 const metasRef = { current: [] }
 
 const produceJson = async () => {
   const { current: metas } = metasRef
-  try {
-    await fs.stat(distPath)
-  } catch (error) {
-    await fs.mkdir(distPath)
-  }
+  // try {
+  //   await fs.stat(distPath)
+  // } catch (error) {
+  //   await fs.mkdir(distPath)
+  // }
   metas.sort(({ time: time1 }, { time: time2 }) => {
     return time2 - time1
   })
@@ -35,7 +35,7 @@ const produceJson = async () => {
     postList[postList.length - 1].posts.push(meta)
   })
   await fs.writeFile(
-    resolve(distPath, './index.json'),
+    resolve(sourcePath, './index.json'),
     JSON.stringify(postList)
   )
 }
@@ -55,7 +55,7 @@ async function main() {
       extensions: [strikethrough.toMarkdown]
     })
     await fs.writeFile(
-      resolve(distPath, './' + basename(mdxFile, '.mdx') + '.md'),
+      resolve(sourcePath, './' + basename(mdxFile, '.mdx') + '.md'),
       md
     )
   })
