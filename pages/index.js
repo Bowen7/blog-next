@@ -23,7 +23,7 @@ const Title = styled.p`
   margin: 0;
 `
 export async function getStaticProps() {
-  const jsonPath = resolve(process.cwd(), './dist/index.json')
+  const jsonPath = resolve(process.cwd(), './dest/index.json')
   const postList = JSON.parse((await fs.readFile(jsonPath)).toString())
   return {
     props: { postList }
