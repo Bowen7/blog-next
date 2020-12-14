@@ -6,7 +6,7 @@ const { resolve, join, basename } = require('path')
 const createMdifyPlugin = require('./mdify')
 const createMetaPlugin = require('./meta')
 const sourcePath = resolve(process.cwd(), './source')
-const distPath = resolve(process.cwd(), './dist')
+const distPath = resolve(process.cwd(), './destt')
 
 const metasRef = { current: [] }
 
