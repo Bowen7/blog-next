@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "pack": "node ./pack/index.js"
+    "pack": "node ./pack/index.js",
+    "all": "npm run pack && npm run build"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
