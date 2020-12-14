@@ -1,31 +1,65 @@
 const mdx = require('@mdx-js/mdx')
-const requireFromString = require('require-from-string')
-const { transform: babelTransform } = require('@babel/core')
-const visit = require('unist-util-visit')
+const toMarkdown = require('mdast-util-to-markdown')
+const strikethrough = require('mdast-util-gfm-strikethrough')
 const fs = require('fs').promises
-const { resolve, join } = require('path')
+const { resolve, join, basename } = require('path')
+const createMdifyPlugin = require('./mdify')
+const createMetaPlugin = require('./meta')
 const sourcePath = resolve(__dirname, '../source')
+const distPath = resolve(__dirname, '../dist')
 
-const metaPlugin = () => (tree) => {
-  visit(tree, 'export', (node) => {
-    const commonjsCode = babelTransform(node.value, {
-      plugins: ['@babel/plugin-transform-modules-commonjs']
-    }).code
-    const { meta = {} } = requireFromString(commonjsCode)
+const metasRef = { current: [] }
+
+const produceJson = async () => {
+  const { current: metas } = metasRef
+  try {
+    await fs.stat(distPath)
+  } catch (error) {
+    await fs.mkdir(distPath)
+  }
+  metas.sort(({ time: time1 }, { time: time2 }) => {
+    return time2 - time1
   })
+  const metaList = []
+  let curYear = ''
+  metas.forEach((meta) => {
+    const { time } = meta
+    const year = time.slice(0, 4)
+    if (year !== curYear) {
+      curYear = year
+      metaList.push({
+        year,
+        metas: []
+      })
+    }
+    metaList[metaList.length - 1].metas.push(meta)
+  })
+  await fs.writeFile(
+    resolve(distPath, './index.json'),
+    JSON.stringify(metaList)
+  )
 }
 
 async function main() {
   const mdxFiles = await fs.readdir(sourcePath)
   await promisifyForEach(mdxFiles, async (mdxFile, index) => {
-    if (index !== 0) {
-      return
-    }
     const file = (await fs.readFile(join(sourcePath, mdxFile))).toString()
+    const treeRef = { current: {} }
     await mdx(file, {
-      remarkPlugins: [metaPlugin]
+      remarkPlugins: [
+        createMetaPlugin(basename(mdxFile, '.mdx'), metasRef),
+        createMdifyPlugin(treeRef)
+      ]
     })
+    const md = toMarkdown(treeRef.current, {
+      extensions: [strikethrough.toMarkdown]
+    })
+    await fs.writeFile(
+      resolve(distPath, './' + basename(mdxFile, '.mdx') + '.md'),
+      md
+    )
   })
+  await produceJson()
 }
 
 async function promisifyForEach(arr, callback) {
