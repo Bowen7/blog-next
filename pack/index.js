@@ -1,12 +1,12 @@
 const mdx = require('@mdx-js/mdx')
 const toMarkdown = require('mdast-util-to-markdown')
 const strikethrough = require('mdast-util-gfm-strikethrough')
-const fs = require('fs').promises
 const { resolve, join, basename } = require('path')
+const os = require('os')
 const createMdifyPlugin = require('./mdify')
 const createMetaPlugin = require('./meta')
+const fs = require('fs').promises
 const sourcePath = resolve(process.cwd(), './source')
-const distPath = resolve(process.cwd(), './dest')
 
 const metasRef = { current: [] }
 
@@ -30,7 +30,7 @@ const produceJson = async () => {
     postList[postList.length - 1].posts.push(meta)
   })
   await fs.writeFile(
-    resolve(distPath, './index.json'),
+    resolve(os.tmpdir(), './index.json'),
     JSON.stringify(postList)
   )
 }
@@ -50,7 +50,7 @@ async function main() {
       extensions: [strikethrough.toMarkdown]
     })
     await fs.writeFile(
-      resolve(distPath, './' + basename(mdxFile, '.mdx') + '.md'),
+      resolve(os.tmpdir(), './' + basename(mdxFile, '.mdx') + '.md'),
       md
     )
   })

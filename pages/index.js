@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import _fs from 'fs'
+import os from 'os'
 import { resolve } from 'path'
 import { timeFormat } from '../utils'
 const fs = _fs.promises
@@ -23,7 +24,7 @@ const Title = styled.p`
   margin: 0;
 `
 export async function getStaticProps() {
-  const jsonPath = resolve(process.cwd(), './dest/index.json')
+  const jsonPath = resolve(os.tmpdir(), './index.json')
   const postList = JSON.parse((await fs.readFile(jsonPath)).toString())
   return {
     props: { postList }
