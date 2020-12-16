@@ -23,15 +23,21 @@ function App({ Component, pageProps }) {
   return (
     <Wrapper>
       <Head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
         <meta
           name="description"
           content="欢迎来访，这是Bowen的个人技术博客，持续保持更新。联系方式：zwxdyx@foxmail.com"
         />
         <meta name="keywords" content="前端,JS,JavaScript,计算机" />
         <meta name="author" content="Bowen,张文翔" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/logo.ico" />
+        <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-6KLLQLJ9LT"
@@ -45,7 +51,6 @@ function App({ Component, pageProps }) {
               gtag('config', 'G-6KLLQLJ9LT');`
           }}
         />
-        <link rel="icon" href="/logo.ico" />
       </Head>
       <Header>
         <Link href="/">
