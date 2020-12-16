@@ -6,7 +6,7 @@ import './prism.css'
 
 const Wrapper = styled.div`
   max-width: 60ch;
-  margin: 0 auto;
+  margin: 0 auto 5rem auto;
 `
 
 const Header = styled.header`
@@ -19,7 +19,7 @@ const Logo = styled.img`
   height: 80px;
   cursor: pointer;
 `
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
     <Wrapper>
       <Head>
@@ -35,4 +35,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default App
