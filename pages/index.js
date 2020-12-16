@@ -34,7 +34,7 @@ export default function Home({ postList }) {
   return (
     <>
       <Head>
-        <title>Bowen&apos;s Blog</title>
+        <title>Bowen Codes</title>
       </Head>
       {postList.map(({ year, posts }) => (
         <React.Fragment key={year}>
