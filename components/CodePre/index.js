@@ -3,7 +3,7 @@ import Clipboard from 'clipboard'
 import styled from 'styled-components'
 const copySrc = '/copy.svg'
 const doneSrc = '/done.svg'
-const StylePre = styled.pre`
+const PreWrapper = styled.div`
   position: relative;
 `
 const Copy = styled.img`
@@ -37,10 +37,12 @@ function CodePre({ children, code, ...props }) {
     }
   }, [])
   return (
-    <StylePre {...props}>
-      <Copy ref={ref} src={svgSrc} data-clipboard-text={code} />
-      {children}
-    </StylePre>
+    <PreWrapper>
+      <pre {...props}>
+        <Copy ref={ref} src={svgSrc} data-clipboard-text={code} />
+        {children}
+      </pre>
+    </PreWrapper>
   )
 }
 export default CodePre
