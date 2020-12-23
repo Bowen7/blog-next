@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Slider from '@geist-ui/react/esm/slider'
 import Button from '@geist-ui/react/esm/button'
 import Radio from '@geist-ui/react/esm/radio'
+import Loading from '@geist-ui/react/esm/loading'
 import { genSrcAndDest, mergeChannels } from './utils'
 import { blurMap, blurOptions } from './constants'
 
@@ -92,6 +93,7 @@ function Blur() {
           width={canvasWidth}
           height={(canvasWidth / 16) * 9}
         ></canvas>
+        {loading && <Loading size="large" />}
         {destShow && (
           <canvas
             ref={destRef}
