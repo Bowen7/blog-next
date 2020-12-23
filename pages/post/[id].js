@@ -37,7 +37,7 @@ function Post({ id }) {
   return (
     <>
       <Head>
-        <title>Bowen Codes - {meta.title}</title>
+        <title>{meta.title} - Bowen Codes</title>
         <base target="_blank" />
       </Head>
       <PostLayout meta={meta}>

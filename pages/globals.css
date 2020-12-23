@@ -137,6 +137,17 @@ input[type='reset'] {
   appearance: button;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 input:-webkit-autofill {
   box-shadow: 0 0 0 100px #fff inset;
 }
