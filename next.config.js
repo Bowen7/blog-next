@@ -13,9 +13,9 @@ const withMDX = require('@next/mdx')({
   }
 })
 
-module.exports = withPlugins([
-  [withMDX, { pageExtensions: ['js', 'mdx'] }],
-  [
+const plugins = [[withMDX, { pageExtensions: ['js', 'mdx'] }]]
+if (process.env.NODE_ENV === 'production') {
+  plugins.push([
     withPWA,
     {
       pwa: {
@@ -23,5 +23,6 @@ module.exports = withPlugins([
         runtimeCaching
       }
     }
-  ]
-])
+  ])
+}
+module.exports = withPlugins(plugins)

@@ -31,5 +31,7 @@ yarn-error.log*
 
 /dist
 
-/dest/*.md
-/dest/*.json
+public/sw.js
+public/sw.js.map
+public/worker-*.js
+public/worker-*.js.map
