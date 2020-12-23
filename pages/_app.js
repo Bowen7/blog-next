@@ -13,6 +13,13 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`
+const Brand = styled.p`
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-top: 0;
 `
 const Logo = styled.img`
   width: 80px;
@@ -55,6 +62,9 @@ function App({ Component, pageProps }) {
       <Header>
         <Link href="/">
           <Logo src="/logo.svg" />
+        </Link>
+        <Link href="/">
+          <Brand>Bowen Codes</Brand>
         </Link>
       </Header>
       <Component {...pageProps} />

@@ -8,32 +8,31 @@ import { blurMap, blurOptions } from './constants'
 
 const Wrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   box-sizing: border-box;
+  padding: 0 0.5rem;
 `
-const SliderWrapper = styled.div`
-  width: 480px;
+const SliderWrap = styled.div`
   margin-bottom: 1rem;
 `
-const StyledButton = styled(Button)`
+const ButtonWrap = styled.div`
   margin-top: 1rem;
+  text-align: center;
 `
 function Blur() {
   const [sigma, setSigma] = useState(5)
   const [time, setTime] = useState()
   const [loading, setLoading] = useState(false)
+  const [destShow, setDestShow] = useState(false)
   const [type, setType] = useState('gaussian')
+  const [canvasWidth, setCanvasWidth] = useState(480)
   const srcRef = useRef()
   const destRef = useRef()
-  const area = [0, 0, 480, 240]
+  const canvasWrapRef = useRef()
   useEffect(() => {
-    const srcCtx = srcRef.current.getContext('2d')
-    const img = new Image()
-    img.src = '/demos/blur.jpg'
-    img.onload = () => {
-      srcCtx.drawImage(img, ...area)
+    resetCanvas()
+    window.addEventListener('resize', resetCanvas)
+    return () => {
+      window.removeEventListener('resize', resetCanvas)
     }
   }, [])
   useEffect(() => {
@@ -42,7 +41,12 @@ function Blur() {
     }
     const srcCtx = srcRef.current.getContext('2d')
     const destCtx = destRef.current.getContext('2d')
-    const imageData = srcCtx.getImageData(...area)
+    const imageData = srcCtx.getImageData(
+      0,
+      0,
+      canvasWidth,
+      (canvasWidth / 16) * 9
+    )
     const { width, height } = imageData
     const { src: srcRgba, dest: destRgba } = genSrcAndDest(imageData.data)
     const start = performance.now()
@@ -56,6 +60,17 @@ function Blur() {
     setTime(time)
     setLoading(false)
   }, [loading])
+  function resetCanvas() {
+    const clientWidth = canvasWrapRef.current.clientWidth
+    setCanvasWidth(clientWidth)
+
+    const srcCtx = srcRef.current.getContext('2d')
+    const img = new Image()
+    img.src = '/demos/blur.jpg'
+    img.onload = () => {
+      srcCtx.drawImage(img, 0, 0, clientWidth, (clientWidth / 16) * 9)
+    }
+  }
   const handleSigmaChange = (value) => {
     if (value === sigma) {
       return
@@ -66,14 +81,27 @@ function Blur() {
     setType(value)
   }
   const handleClick = () => {
+    setDestShow(true)
     setLoading(true)
   }
   return (
     <Wrapper>
-      <canvas ref={srcRef} width={480} height={240}></canvas>
-      <canvas ref={destRef} width={480} height={240}></canvas>
+      <div ref={canvasWrapRef}>
+        <canvas
+          ref={srcRef}
+          width={canvasWidth}
+          height={(canvasWidth / 16) * 9}
+        ></canvas>
+        {destShow && (
+          <canvas
+            ref={destRef}
+            width={canvasWidth}
+            height={(canvasWidth / 16) * 9}
+          ></canvas>
+        )}
+      </div>
       {time && <p>耗时: {time}ms</p>}
-      <SliderWrapper>
+      <SliderWrap width={canvasWidth}>
         <p>
           {blurMap[type].sigma ? 'Sigma' : 'Radius'}: {sigma}
         </p>
@@ -85,7 +113,7 @@ function Blur() {
           value={sigma}
           onChange={handleSigmaChange}
         />
-      </SliderWrapper>
+      </SliderWrap>
       <Radio.Group value={type} onChange={handleTypeChange}>
         {blurOptions.map(({ value, text }) => (
           <Radio value={value} key={value}>
@@ -93,9 +121,11 @@ function Blur() {
           </Radio>
         ))}
       </Radio.Group>
-      <StyledButton auto loading={loading} onClick={handleClick}>
-        生成
-      </StyledButton>
+      <ButtonWrap>
+        <Button auto loading={loading} onClick={handleClick}>
+          生成
+        </Button>
+      </ButtonWrap>
     </Wrapper>
   )
 }
