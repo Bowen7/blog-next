@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Head from 'next/head'
 import Slider from '@geist-ui/react/esm/slider'
 import Button from '@geist-ui/react/esm/button'
 import Radio from '@geist-ui/react/esm/radio'
@@ -71,9 +70,6 @@ function Blur() {
   }
   return (
     <Wrapper>
-      <Head>
-        <title>Blur Demo - Bowen Codes</title>
-      </Head>
       <canvas ref={srcRef} width={480} height={240}></canvas>
       <canvas ref={destRef} width={480} height={240}></canvas>
       {time && <p>耗时: {time}ms</p>}
