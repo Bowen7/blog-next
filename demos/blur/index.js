@@ -74,13 +74,28 @@ function Blur() {
       <canvas ref={destRef} width={480} height={240}></canvas>
       {time && <p>耗时: {time}ms</p>}
       <SliderWrapper>
-        <p>{blurMap[type].sigma ? 'Sigma' : 'Radius'}: {sigma}</p>
-        <Slider step={1} min={1} max={20} showMarkers value={sigma} onChange={handleSigmaChange} />
+        <p>
+          {blurMap[type].sigma ? 'Sigma' : 'Radius'}: {sigma}
+        </p>
+        <Slider
+          step={1}
+          min={1}
+          max={20}
+          showMarkers
+          value={sigma}
+          onChange={handleSigmaChange}
+        />
       </SliderWrapper>
       <Radio.Group value={type} onChange={handleTypeChange}>
-        {blurOptions.map(({ value, text }) => (<Radio value={value} key={value}>{text}</Radio>))}
+        {blurOptions.map(({ value, text }) => (
+          <Radio value={value} key={value}>
+            {text}
+          </Radio>
+        ))}
       </Radio.Group>
-      <StyledButton auto loading={loading} onClick={handleClick}>生成</StyledButton>
+      <StyledButton auto loading={loading} onClick={handleClick}>
+        生成
+      </StyledButton>
     </Wrapper>
   )
 }

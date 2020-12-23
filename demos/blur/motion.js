@@ -1,5 +1,5 @@
 // horizontal motion blur
-function hMotionBlur (src, dest, width, height, radius) {
+function hMotionBlur(src, dest, width, height, radius) {
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
       let accumulation = 0
@@ -13,7 +13,7 @@ function hMotionBlur (src, dest, width, height, radius) {
 }
 
 // vertical motion blur
-function vMotionBlur (src, dest, width, height, radius) {
+function vMotionBlur(src, dest, width, height, radius) {
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
       let accumulation = 0
@@ -26,6 +26,4 @@ function vMotionBlur (src, dest, width, height, radius) {
   }
 }
 
-export {
-  hMotionBlur, vMotionBlur
-}
+export { hMotionBlur, vMotionBlur }

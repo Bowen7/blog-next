@@ -28,22 +28,29 @@ export const blurMap = {
     sigma: true
   }
 }
-export const blurOptions = [{
-  text: '高斯模糊',
-  value: 'gaussian'
-}, {
-  text: '简单盒子模糊',
-  value: 'simpleBox'
-}, {
-  text: '应用高斯核的盒子模糊',
-  value: 'box'
-}, {
-  text: '水平模糊',
-  value: 'hMotion'
-}, {
-  text: '垂直模糊',
-  value: 'vMotion'
-}, {
-  text: '高速模糊',
-  value: 'fast'
-}]
+export const blurOptions = [
+  {
+    text: '高斯模糊',
+    value: 'gaussian'
+  },
+  {
+    text: '简单盒子模糊',
+    value: 'simpleBox'
+  },
+  {
+    text: '应用高斯核的盒子模糊',
+    value: 'box'
+  },
+  {
+    text: '水平模糊',
+    value: 'hMotion'
+  },
+  {
+    text: '垂直模糊',
+    value: 'vMotion'
+  },
+  {
+    text: '高速模糊',
+    value: 'fast'
+  }
+]
