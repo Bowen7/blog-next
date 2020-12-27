@@ -1,7 +1,8 @@
 export const meta = {
-  title: '实现线性时间的高斯模糊算法',
-  time: '20201224',
-  ready: false
+  title: '实现 O(n) 时间的高斯模糊算法',
+  time: '20201228',
+  ready: true,
+  tags: ['算法']
 }
 
 <link
@@ -88,7 +89,7 @@ function simpleBoxBlur(src, dest, width, height, radius) {
 radius=15的效果(775ms)：
 ![简单方框模糊](/demos/blur/simple-box.png)
 
-可以看出，虽然耗时较高斯模糊短，但其效果是很不平滑的。那有没有办法让方框模糊拥有高斯模糊一样的品质呢，[这篇论文](https://www.peterkovesi.com/papers/FastGaussianSmoothing.pdf)告诉我们：是可以的
+可以看出，虽然耗时较高斯模糊短，但其效果是很不平滑的。那有没有办法让方框模糊拥有高斯模糊一样的品质呢，[这篇论文](https://www.peterkovesi.com/papers/FastGaussianSmoothing.pdf)提出了方案
 
 根据论文中所述，可以通过多次的方框模糊实现高斯模糊，而这多次方框模糊的核由以下步骤得出：
 
@@ -247,7 +248,7 @@ function fastBlur(src, dest, width, height, sigma) {
 
 ### 总结
 
-先后通过多次方框模糊、水平+垂直模糊代替方框模糊、对水平/垂直模糊计算过程的优化，逐步将高斯模糊的耗时降低，最后得到了只与图片大小相关的线性时间算法
+先后通过多次方框模糊、水平+垂直模糊代替方框模糊、对水平/垂直模糊计算过程的优化，逐步将高斯模糊的耗时降低，最后得到了只与图片大小相关的O(n)时间复杂度算法
 
 #### 参考
 

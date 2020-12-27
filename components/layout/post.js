@@ -14,11 +14,12 @@ const Info = styled.div`
     color: #696969;
   }
 `
+const LeftInfo = styled.div``
 const components = {
   pre: CodePre
 }
 function PostLayout({ children, meta = {} }) {
-  const { title, time } = meta
+  const { title, time, tags = [] } = meta
   return (
     <article>
       <Head>
@@ -27,7 +28,14 @@ function PostLayout({ children, meta = {} }) {
       </Head>
       <h1>{title}</h1>
       <Info>
-        <time>{timeFormat(time)}</time>
+        <LeftInfo>
+          <time>{timeFormat(time)}</time>
+          {tags.map((tag) => (
+            <span className="tag" key={tag}>
+              {tag}
+            </span>
+          ))}
+        </LeftInfo>
         <Link href="/">首页</Link>
       </Info>
       <hr />

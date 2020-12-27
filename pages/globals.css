@@ -247,6 +247,16 @@ blockquote *:last-child {
   background-color: #bfbfbf;
 }
 
+.tag {
+  font-size: 0.875rem;
+  color: #696969;
+  background: rgb(234, 234, 234);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.2rem;
+  margin-left: 0.5rem;
+  white-space:nowrap;
+}
+
 time {
   font-size: 0.875rem;
   color: #696969;

@@ -15,10 +15,16 @@ const Year = styled.p`
 const Post = styled.div`
   margin-left: 0.5rem;
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+`
+const TitleWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `
 const Title = styled.p`
-  margin: 0;
+  margin: 0 1rem 0 0;
 `
 export async function getStaticProps() {
   const sourceContext = require.context('./post', false, /\.mdx$/)
@@ -57,10 +63,17 @@ export default function Home({ postYears }) {
         <React.Fragment key={year}>
           <Year>{year}</Year>
           <hr />
-          {posts.map(({ title, time, name }) => (
+          {posts.map(({ title, time, name, tags = [] }) => (
             <Link key={title} href={'/post/' + name}>
               <Post>
-                <Title>{title}</Title>
+                <TitleWrap>
+                  <Title>{title}</Title>
+                  {tags.map((tag) => (
+                    <span className="tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </TitleWrap>
                 <time>{timeFormat(time)}</time>
               </Post>
             </Link>
