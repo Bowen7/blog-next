@@ -4,7 +4,7 @@ const strikethrough = require('mdast-util-gfm-strikethrough')
 const { resolve, join, basename } = require('path')
 const fs = require('fs').promises
 const createMdifyPlugin = require('./mdify')
-const PATH = '../source/fast-blur.mdx'
+const PATH = '../pages/post/fast-blur.mdx'
 async function main() {
   const file = (await fs.readFile(join(__dirname, PATH))).toString()
   const treeRef = { current: {} }

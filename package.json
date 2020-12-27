@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "single": "node ./custom/single.js"
+    "single": "node ./customs/single.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
