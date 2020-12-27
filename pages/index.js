@@ -2,11 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import _fs from 'fs'
-import os from 'os'
-import { resolve } from 'path'
 import { timeFormat } from '../utils'
-const fs = _fs.promises
 
 const Year = styled.p`
   color: #434343;
@@ -24,19 +20,38 @@ const Title = styled.p`
   margin: 0;
 `
 export async function getStaticProps() {
-  const jsonPath = resolve(os.tmpdir(), './index.json')
-  const postList = JSON.parse((await fs.readFile(jsonPath)).toString())
+  const sourceContext = require.context('../source', false, /\.mdx$/)
+  const metas = sourceContext.keys().map((key) => {
+    return { name: key, ...sourceContext(key).meta }
+  })
+  metas.sort(({ time: time1 }, { time: time2 }) => {
+    return time2 - time1
+  })
+  const postYears = []
+  let curYear = ''
+  metas.forEach((meta) => {
+    const { time } = meta
+    const year = time.slice(0, 4)
+    if (year !== curYear) {
+      curYear = year
+      postYears.push({
+        year,
+        posts: []
+      })
+    }
+    postYears[postYears.length - 1].posts.push(meta)
+  })
   return {
-    props: { postList }
+    props: { postYears }
   }
 }
-export default function Home({ postList }) {
+export default function Home({ postYears }) {
   return (
     <>
       <Head>
         <title>Bowen Codes</title>
       </Head>
-      {postList.map(({ year, posts }) => (
+      {postYears.map(({ year, posts }) => (
         <React.Fragment key={year}>
           <Year>{year}</Year>
           <hr />

@@ -6,7 +6,7 @@ const refractor = require('refractor/core')
 const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
 const withTM = require('next-transpile-modules')(['@geist-ui/react'])
-const beautifyPlugin = require('./pack/beautify')
+const beautifyPlugin = require('./customs/beautify')
 refractor.register(require('refractor/lang/jsx'))
 
 const withMDX = require('@next/mdx')({
