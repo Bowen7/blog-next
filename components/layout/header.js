@@ -43,7 +43,7 @@ export default function Header({ page }) {
           <Brand>Bowen Codes</Brand>
         </Link>
       </StyledHeader>
-      {page !== 'post' && (
+      {page === '' && (
         <Nav>
           <a
             href="https://github.com/Bowen7"
