@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
+import { basename } from 'path'
 import { timeFormat } from '../utils'
 
 const Year = styled.p`
@@ -20,10 +21,11 @@ const Title = styled.p`
   margin: 0;
 `
 export async function getStaticProps() {
-  const sourceContext = require.context('../source', false, /\.mdx$/)
-  const metas = sourceContext.keys().map((key) => {
-    return { name: key, ...sourceContext(key).meta }
+  const sourceContext = require.context('./post', false, /\.mdx$/)
+  let metas = sourceContext.keys().map((key) => {
+    return { name: basename(key, '.mdx'), ...sourceContext(key).meta }
   })
+  metas = metas.filter(({ ready }) => !(ready === false))
   metas.sort(({ time: time1 }, { time: time2 }) => {
     return time2 - time1
   })

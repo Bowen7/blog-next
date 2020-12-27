@@ -6,6 +6,7 @@ const refractor = require('refractor/core')
 const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
 const withTM = require('next-transpile-modules')(['@geist-ui/react'])
+const { resolve } = require('path')
 const beautifyPlugin = require('./customs/beautify')
 refractor.register(require('refractor/lang/jsx'))
 
@@ -21,12 +22,15 @@ const plugins = [
   [
     withMDX,
     {
-      pageExtensions: ['js', 'mdx']
-      // todo
-      // webpack(config, options) {
-      //   console.log(config.module.rules)
-      //   return config
-      // }
+      pageExtensions: ['js', 'mdx'],
+      webpack(config, options) {
+        config.module.rules.forEach((rule) => {
+          if (rule.test && rule.test.test('test.mdx')) {
+            rule.use.push(resolve(__dirname, './customs/loader'))
+          }
+        })
+        return config
+      }
     }
   ],
   [withTM]

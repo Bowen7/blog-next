@@ -9,7 +9,6 @@ import { blurMap, blurOptions } from './constants'
 
 const Wrapper = styled.div`
   width: 100%;
-  box-sizing: border-box;
   padding: 0 0.5rem;
 `
 const SliderWrap = styled.div`

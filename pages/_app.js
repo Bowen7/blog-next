@@ -1,34 +1,11 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import styled from 'styled-components'
+import Layout from '../components/layout'
 import './globals.css'
 import './prism.css'
 
-const Wrapper = styled.div`
-  max-width: 60ch;
-  margin: 0 auto 5rem auto;
-`
-
-const Header = styled.header`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 1rem;
-`
-const Brand = styled.p`
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-top: 0;
-`
-const Logo = styled.img`
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-`
 function App({ Component, pageProps }) {
   return (
-    <Wrapper>
+    <>
       <Head>
         <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
@@ -63,16 +40,10 @@ function App({ Component, pageProps }) {
           </>
         )}
       </Head>
-      <Header>
-        <Link href="/">
-          <Logo src="/logo.svg" />
-        </Link>
-        <Link href="/">
-          <Brand>Bowen Codes</Brand>
-        </Link>
-      </Header>
-      <Component {...pageProps} />
-    </Wrapper>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
   )
 }
 

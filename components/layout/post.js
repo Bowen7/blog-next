@@ -1,7 +1,8 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { MDXProvider } from '@mdx-js/react'
 import styled from 'styled-components'
-import CodePre from '../CodePre'
+import CodePre from '../codePre'
 import { timeFormat } from '../../utils'
 const Info = styled.div`
   display: flex;
@@ -20,6 +21,10 @@ function PostLayout({ children, meta = {} }) {
   const { title, time } = meta
   return (
     <article>
+      <Head>
+        <base target="_blank" rel="noopener noreferrer" />
+        <title>{title} - Bowen Codes</title>
+      </Head>
       <h1>{title}</h1>
       <Info>
         <time>{timeFormat(time)}</time>
