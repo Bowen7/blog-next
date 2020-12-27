@@ -46,7 +46,7 @@ function Blur() {
       0,
       0,
       canvasWidth,
-      (canvasWidth / 16) * 9
+      canvasWidth * 0.238
     )
     const { width, height } = imageData
     const { src: srcRgba, dest: destRgba } = genSrcAndDest(imageData.data)
@@ -67,15 +67,12 @@ function Blur() {
 
     const srcCtx = srcRef.current.getContext('2d')
     const img = new Image()
-    img.src = '/demos/blur.jpg'
+    img.src = '/demos/blur/input.jpg'
     img.onload = () => {
-      srcCtx.drawImage(img, 0, 0, clientWidth, (clientWidth / 16) * 9)
+      srcCtx.drawImage(img, 0, 0, clientWidth, clientWidth * 0.238)
     }
   }
   const handleSigmaChange = (value) => {
-    if (value === sigma) {
-      return
-    }
     setSigma(value)
   }
   const handleTypeChange = (value) => {
@@ -91,14 +88,14 @@ function Blur() {
         <canvas
           ref={srcRef}
           width={canvasWidth}
-          height={(canvasWidth / 16) * 9}
+          height={canvasWidth * 0.238}
         ></canvas>
         {loading && <Loading size="large" />}
         {destShow && (
           <canvas
             ref={destRef}
             width={canvasWidth}
-            height={(canvasWidth / 16) * 9}
+            height={canvasWidth * 0.238}
           ></canvas>
         )}
       </div>
@@ -123,6 +120,7 @@ function Blur() {
           </Radio>
         ))}
       </Radio.Group>
+      <p>注：简单方框模糊、水平模糊、垂直模糊的参数为radius，其余模糊为sigma</p>
       <ButtonWrap>
         <Button auto loading={loading} onClick={handleClick}>
           生成

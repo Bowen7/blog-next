@@ -45,19 +45,23 @@ function App({ Component, pageProps }) {
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/logo.ico" />
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-6KLLQLJ9LT"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-6KLLQLJ9LT"
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
               gtag('config', 'G-6KLLQLJ9LT');`
-          }}
-        />
+              }}
+            />
+          </>
+        )}
       </Head>
       <Header>
         <Link href="/">

@@ -30,7 +30,7 @@ const mergeChannels = ([r, g, b, a]) => {
   return data
 }
 
-function genBoxesForGaussian(sigma, n) {
+function genKernelsForGaussian(sigma, n) {
   const wIdeal = Math.sqrt((12 * Math.pow(sigma, 2)) / n + 1)
   let wl = Math.floor(wIdeal)
   if (wl % 2 === 0) {
@@ -48,4 +48,4 @@ function genBoxesForGaussian(sigma, n) {
   return sizes
 }
 
-export { genSrcAndDest, mergeChannels, genBoxesForGaussian }
+export { genSrcAndDest, mergeChannels, genKernelsForGaussian }

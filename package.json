@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "pack": "node ./pack/index.js",
-    "all": "npm run pack && npm run build"
+    "all": "npm run pack && npm run build",
+    "single": "node ./pack/single.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -28,6 +29,8 @@
     "pangu": "^4.0.7",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "rehype-katex": "^3.0.0",
+    "remark-math": "^2.0.0",
     "styled-components": "^5.2.1",
     "unist-util-remove": "^2.0.1",
     "unist-util-visit": "^2.0.3"

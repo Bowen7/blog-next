@@ -1,3 +1,4 @@
+import { genKernelsForGaussian } from './utils'
 // horizontal motion blur
 function hMotionBlur(src, dest, width, height, radius) {
   for (let i = 0; i < width; i++) {
@@ -26,4 +27,19 @@ function vMotionBlur(src, dest, width, height, radius) {
   }
 }
 
-export { hMotionBlur, vMotionBlur }
+function _mutantBoxBlur(src, dest, width, height, radius) {
+  hMotionBlur(dest, src, width, height, radius)
+  vMotionBlur(src, dest, width, height, radius)
+}
+
+function mutantBoxBlur(src, dest, width, height, sigma) {
+  const boxes = genKernelsForGaussian(sigma, 3)
+  for (let i = 0; i < src.length; i++) {
+    dest[i] = src[i]
+  }
+  _mutantBoxBlur(src, dest, width, height, (boxes[0] - 1) / 2)
+  _mutantBoxBlur(src, dest, width, height, (boxes[1] - 1) / 2)
+  _mutantBoxBlur(src, dest, width, height, (boxes[2] - 1) / 2)
+}
+
+export { hMotionBlur, vMotionBlur, mutantBoxBlur }

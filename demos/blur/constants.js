@@ -1,6 +1,6 @@
 import gaussianBlur from './gaussian'
 import { simpleBoxBlur, boxBlur } from './box'
-import { hMotionBlur, vMotionBlur } from './motion'
+import { hMotionBlur, vMotionBlur, mutantBoxBlur } from './motion'
 import fastBlur from './fast'
 export const blurMap = {
   gaussian: {
@@ -23,6 +23,10 @@ export const blurMap = {
     caller: vMotionBlur,
     sigma: false
   },
+  mutantBox: {
+    caller: mutantBoxBlur,
+    sigma: true
+  },
   fast: {
     caller: fastBlur,
     sigma: true
@@ -34,11 +38,11 @@ export const blurOptions = [
     value: 'gaussian'
   },
   {
-    text: '简单盒子模糊',
+    text: '简单方框模糊',
     value: 'simpleBox'
   },
   {
-    text: '应用高斯核的盒子模糊',
+    text: '改进方框模糊',
     value: 'box'
   },
   {
@@ -48,6 +52,10 @@ export const blurOptions = [
   {
     text: '垂直模糊',
     value: 'vMotion'
+  },
+  {
+    text: '水平&垂直多次组合模糊',
+    value: 'mutantBox'
   },
   {
     text: '高速模糊',

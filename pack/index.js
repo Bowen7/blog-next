@@ -1,9 +1,6 @@
 const mdx = require('@mdx-js/mdx')
-const toMarkdown = require('mdast-util-to-markdown')
-const strikethrough = require('mdast-util-gfm-strikethrough')
 const { resolve, join, basename } = require('path')
 const os = require('os')
-const createMdifyPlugin = require('./mdify')
 const createMetaPlugin = require('./meta')
 const fs = require('fs').promises
 const sourcePath = resolve(process.cwd(), './source')
@@ -39,20 +36,9 @@ async function main() {
   const mdxFiles = await fs.readdir(sourcePath)
   await promisifyForEach(mdxFiles, async (mdxFile, index) => {
     const file = (await fs.readFile(join(sourcePath, mdxFile))).toString()
-    const treeRef = { current: {} }
     await mdx(file, {
-      remarkPlugins: [
-        createMetaPlugin(basename(mdxFile, '.mdx'), metasRef),
-        createMdifyPlugin(treeRef)
-      ]
+      remarkPlugins: [createMetaPlugin(basename(mdxFile, '.mdx'), metasRef)]
     })
-    const md = toMarkdown(treeRef.current, {
-      extensions: [strikethrough.toMarkdown]
-    })
-    await fs.writeFile(
-      resolve(os.tmpdir(), './' + basename(mdxFile, '.mdx') + '.md'),
-      md
-    )
   })
   await produceJson()
 }

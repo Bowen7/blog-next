@@ -1,4 +1,4 @@
-const { genBoxesForGaussian } = require('./utils')
+import { genKernelsForGaussian } from './utils'
 function simpleBoxBlur(src, dest, width, height, radius) {
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
@@ -18,10 +18,10 @@ function simpleBoxBlur(src, dest, width, height, radius) {
 }
 
 function boxBlur(src, dest, width, height, sigma) {
-  const boxes = genBoxesForGaussian(sigma, 3)
-  simpleBoxBlur(src, dest, width, height, (boxes[0] - 1) / 2)
-  simpleBoxBlur(dest, src, width, height, (boxes[1] - 1) / 2)
-  simpleBoxBlur(src, dest, width, height, (boxes[2] - 1) / 2)
+  const kernels = genKernelsForGaussian(sigma, 3)
+  simpleBoxBlur(src, dest, width, height, (kernels[0] - 1) / 2)
+  simpleBoxBlur(dest, src, width, height, (kernels[1] - 1) / 2)
+  simpleBoxBlur(src, dest, width, height, (kernels[2] - 1) / 2)
 }
 
 export { simpleBoxBlur, boxBlur }

@@ -1,5 +1,7 @@
 const withPlugins = require('next-compose-plugins')
 const rehypePrism = require('@mapbox/rehype-prism')
+const remarkMath = require('remark-math')
+const rehypeKatex = require('rehype-katex')
 const refractor = require('refractor/core')
 const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
@@ -10,11 +12,25 @@ refractor.register(require('refractor/lang/jsx'))
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
-    rehypePlugins: [beautifyPlugin, rehypePrism]
+    rehypePlugins: [rehypeKatex, beautifyPlugin, rehypePrism],
+    remarkPlugins: [remarkMath]
   }
 })
 
-const plugins = [[withMDX, { pageExtensions: ['js', 'mdx'] }], [withTM]]
+const plugins = [
+  [
+    withMDX,
+    {
+      pageExtensions: ['js', 'mdx']
+      // todo
+      // webpack(config, options) {
+      //   console.log(config.module.rules)
+      //   return config
+      // }
+    }
+  ],
+  [withTM]
+]
 if (process.env.NODE_ENV === 'production') {
   plugins.push([
     withPWA,
