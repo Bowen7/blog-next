@@ -13,11 +13,7 @@ function App({ Component, pageProps }) {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
-        <meta
-          name="description"
-          content="欢迎来访，这是Bowen的个人技术博客，持续保持更新。联系方式：zwxdyx@foxmail.com"
-        />
-        <meta name="keywords" content="前端,JS,JavaScript,计算机" />
+        <meta name="keywords" content="前端,JS,JavaScript,计算机,算法" />
         <meta name="author" content="Bowen,张文翔" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icons/logo.ico" />
