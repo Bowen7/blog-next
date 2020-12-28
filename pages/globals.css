@@ -87,6 +87,7 @@ a {
   -webkit-box-align: center;
   align-items: center;
   text-decoration: underline;
+  word-wrap: break-word;
 }
 
 button,
