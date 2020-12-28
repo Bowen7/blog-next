@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Clipboard from 'clipboard'
 import styled from 'styled-components'
-const copySrc = '/copy.svg'
-const doneSrc = '/done.svg'
+const copySrc = '/icons/copy.svg'
+const doneSrc = '/icons/done.svg'
 const PreWrapper = styled.div`
   position: relative;
 `

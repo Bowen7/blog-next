@@ -20,8 +20,8 @@ function App({ Component, pageProps }) {
         <meta name="keywords" content="前端,JS,JavaScript,计算机" />
         <meta name="author" content="Bowen,张文翔" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/logo.ico" />
-        <link rel="apple-touch-icon" href="/apple-icon.png"></link>
+        <link rel="icon" href="/icons/logo.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-icon.png"></link>
         {process.env.NODE_ENV === 'production' && (
           <>
             <script

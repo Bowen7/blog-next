@@ -37,7 +37,7 @@ export default function Header({ page }) {
     <>
       <StyledHeader>
         <Link href="/">
-          <Logo src="/logo.svg" />
+          <Logo src="icon/logo.svg" />
         </Link>
         <Link href="/">
           <Brand>Bowen Codes</Brand>
@@ -51,7 +51,7 @@ export default function Header({ page }) {
             rel="noopener noreferrer"
             style={{ fontSize: 0 }}
           >
-            <img src="/github.png" alt="github"></img>
+            <img src="/icons/github.png" alt="github"></img>
           </a>
           {/* <Link href="/about">关于</Link> */}
         </Nav>
