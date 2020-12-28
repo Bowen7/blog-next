@@ -37,7 +37,7 @@ export default function Header({ page }) {
     <>
       <StyledHeader>
         <Link href="/">
-          <Logo src="icons/logo.svg" />
+          <Logo src="/icons/logo.svg" />
         </Link>
         <Link href="/">
           <Brand>Bowen Codes</Brand>
