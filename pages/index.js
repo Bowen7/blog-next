@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { basename } from 'path'
-import { timeFormat } from '../utils'
+import Post from '../components/post'
 
 const Year = styled.p`
   color: #434343;
@@ -12,20 +12,6 @@ const Year = styled.p`
   margin-bottom: 0.5rem;
 `
 
-const Post = styled.div`
-  margin-left: 0.5rem;
-  cursor: pointer;
-  margin-bottom: 1.5rem;
-`
-const TitleWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`
-const Title = styled.p`
-  margin: 0 1rem 0 0;
-`
 export async function getStaticProps() {
   const sourceContext = require.context('./post', false, /\.mdx$/)
   let metas = sourceContext.keys().map((key) => {
@@ -64,18 +50,8 @@ export default function Home({ postYears }) {
           <Year>{year}</Year>
           <hr />
           {posts.map(({ title, time, name, tags = [] }) => (
-            <Link key={title} href={'/post/' + name}>
-              <Post>
-                <TitleWrap>
-                  <Title>{title}</Title>
-                  {tags.map((tag) => (
-                    <span className="tag" key={tag}>
-                      {tag}
-                    </span>
-                  ))}
-                </TitleWrap>
-                <time>{timeFormat(time)}</time>
-              </Post>
+            <Link key={title} href={'/post/' + name} passHref>
+              <Post title={title} time={time} tags={tags} />
             </Link>
           ))}
         </React.Fragment>
