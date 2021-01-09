@@ -1,10 +1,9 @@
-import React from 'react'
+import Link from 'next/link'
 import styled from 'styled-components'
 import { timeFormat } from '../../utils'
 
 const StyledPost = styled.div`
   margin-left: 0.5rem;
-  cursor: pointer;
   margin-bottom: 1.5rem;
 `
 const TitleWrap = styled.div`
@@ -18,11 +17,12 @@ const Title = styled.a`
   text-decoration: none;
 `
 
-// https://nextjs.org/docs/api-reference/next/link#if-the-child-is-a-function-component
-const Post = React.forwardRef(({ time, title, tags, href }, ref) => (
-  <StyledPost ref={ref}>
+const Post = ({ time, title, name, tags = [] }) => (
+  <StyledPost>
     <TitleWrap>
-      <Title href={href}>{title}</Title>
+      <Link key={title} href={'/post/' + name} passHref>
+        <Title>{title}</Title>
+      </Link>
       <div>
         {tags.map((tag) => (
           <span className="tag" key={tag}>
@@ -33,7 +33,6 @@ const Post = React.forwardRef(({ time, title, tags, href }, ref) => (
     </TitleWrap>
     <time>{timeFormat(time)}</time>
   </StyledPost>
-))
-Post.displayName = 'Post'
+)
 
 export default Post

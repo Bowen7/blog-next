@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { basename } from 'path'
@@ -49,10 +48,8 @@ export default function Home({ postYears }) {
         <React.Fragment key={year}>
           <Year>{year}</Year>
           <hr />
-          {posts.map(({ title, time, name, tags = [] }) => (
-            <Link key={title} href={'/post/' + name} passHref>
-              <Post title={title} time={time} tags={tags} />
-            </Link>
+          {posts.map((post) => (
+            <Post {...post} key={post.name} />
           ))}
         </React.Fragment>
       ))}
