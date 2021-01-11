@@ -37,6 +37,5 @@ const prettier = require('prettier')
   const formatted = prettier.format(sitemap, {
     parser: 'html'
   })
-  console.log(formatted)
   fs.writeFileSync('public/sitemap.xml', formatted)
 })()
