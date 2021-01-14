@@ -43,6 +43,9 @@ const beautifyPlugin = () => (tree) => {
   visit(tree, 'text', (node) => {
     node.value = pangu.spacing(node.value)
   })
+  visit(tree, 'link', (node, index, parent) => {
+    spacingLink(node, index, parent)
+  })
   visit(tree, 'element', (node, index, parent) => {
     switch (node.tagName) {
       case 'a':
@@ -57,4 +60,7 @@ const beautifyPlugin = () => (tree) => {
   })
 }
 
-module.exports = beautifyPlugin
+module.exports = {
+  beautifyPlugin,
+  spacingLink
+}

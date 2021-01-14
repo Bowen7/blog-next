@@ -7,7 +7,7 @@ const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
 const withTM = require('next-transpile-modules')(['@geist-ui/react'])
 const { resolve } = require('path')
-const beautifyPlugin = require('./customs/beautify')
+const { beautifyPlugin } = require('./customs/beautify')
 refractor.register(require('refractor/lang/jsx'))
 
 const withMDX = require('@next/mdx')({
@@ -24,7 +24,7 @@ const plugins = [
     {
       pageExtensions: ['js', 'mdx'],
       webpack(config, { isServer }) {
-        if (isServer) {
+        if (isServer && process.env.NODE_ENV === 'production') {
           require('./customs/sitemap')
         }
 

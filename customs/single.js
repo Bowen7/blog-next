@@ -4,16 +4,20 @@ const strikethrough = require('mdast-util-gfm-strikethrough')
 const { resolve, join, basename } = require('path')
 const fs = require('fs').promises
 const createMdifyPlugin = require('./mdify')
+const { beautifyPlugin } = require('./beautify')
+const dual = require('./dual')
 const PATH = '../pages/post/fast-blur.mdx'
 async function main() {
-  const file = (await fs.readFile(join(__dirname, PATH))).toString()
+  let content = (await fs.readFile(join(__dirname, PATH))).toString()
+  content = dual(content, false)
   const treeRef = { current: {} }
-  await mdx(file, {
-    remarkPlugins: [createMdifyPlugin(treeRef)]
+  await mdx(content, {
+    remarkPlugins: [beautifyPlugin, createMdifyPlugin(treeRef)]
   })
-  const md = toMarkdown(treeRef.current, {
+  let md = toMarkdown(treeRef.current, {
     extensions: [strikethrough.toMarkdown]
   })
+  md = `访问我的 [个人博客网站](https://bowencodes.com/post/${basename(PATH, '.mdx')}) ，获取更好的阅读体验\n\n` + md
   try {
     await fs.access(resolve(__dirname, '../dist'))
   } catch (err) {
