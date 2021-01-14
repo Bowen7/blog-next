@@ -11,6 +11,7 @@ const Brand = styled.p`
   font-size: 1.5rem;
   cursor: pointer;
   margin-top: 0;
+  color: #595959;
 `
 const Logo = styled.img`
   width: 80px;

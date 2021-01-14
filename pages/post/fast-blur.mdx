@@ -187,10 +187,17 @@ function mutantBoxBlur(src, dest, width, height, sigma) {
 
 ### 终极优化
 
-以水平模糊为例(这里为了方便，用二维数组表示)，$dest[i][j]=\frac{src[i][j-r]+...+src[i][j]+...src[i][j+r]}{2r+1}$，
-而$dest[i][j+1]=\frac{src[i][j+1-r]+...+src[i][j+1]+...src[i][j+1+r]}{2r+1}$，
-则$dest[i][j+1]=dest[i][j]+\frac{src[i][j+1+r]-src[i][j-r]}{2r+1}$，
-那很明显，我们可以通过此优化将时间复杂度由O(nr)降到O(n)，最终的代码:
+以水平模糊为例，相邻两个像素点计算公式（这里为了方便理解，使用了二位数组，实际计算中是一唯的；并且没有考虑边界情况）：
+
+$dest[i][j]=\frac{src[i][j-r]+...+src[i][j]+...src[i][j+r]}{2r+1}$
+
+$dest[i][j+1]=\frac{src[i][j+1-r]+...+src[i][j+1]+...src[i][j+1+r]}{2r+1}$
+
+可以看出，两个公式的差别很小：dest[i][j] 的公式多了一个 src[i][j−r]，dest[i][j+1] 的多了一个 src[i][j+1+r]
+
+那么就有 $dest[i][j+1]=dest[i][j]+\frac{src[i][j+1+r]-src[i][j-r]}{2r+1}$
+
+所以，在计算模糊像素时，不必再遍历半径 r 内的像素，而是直接与上一像素关联，节省了 O(r) 的时间复杂度。可以借此优化将时间复杂度由O(nr)降到O(n)，最终的代码:
 ```js
 // horizontal fast motion blur
 function hFastMotionBlur(src, dest, width, height, radius) {
