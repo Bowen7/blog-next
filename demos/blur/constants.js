@@ -54,7 +54,7 @@ export const blurOptions = [
     value: 'vMotion'
   },
   {
-    text: '水平&垂直多次组合模糊',
+    text: '水平 & 垂直多次组合模糊',
     value: 'mutantBox'
   },
   {

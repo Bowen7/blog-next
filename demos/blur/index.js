@@ -119,7 +119,7 @@ function Blur() {
           </Radio>
         ))}
       </Radio.Group>
-      <p>注：简单方框模糊、水平模糊、垂直模糊的参数为radius，其余模糊为sigma</p>
+      <p>注：简单方框模糊、水平模糊、垂直模糊的参数为 radius，其余模糊为 sigma</p>
       <ButtonWrap>
         <Button auto loading={loading} onClick={handleClick}>
           生成
