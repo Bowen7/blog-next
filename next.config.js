@@ -23,7 +23,11 @@ const plugins = [
     withMDX,
     {
       pageExtensions: ['js', 'mdx'],
-      webpack(config, options) {
+      webpack(config, { isServer }) {
+        if (isServer) {
+          require('./customs/sitemap')
+        }
+
         config.module.rules.forEach((rule) => {
           if (rule.test && rule.test.test('test.mdx')) {
             rule.use.push(resolve(__dirname, './customs/loader'))
