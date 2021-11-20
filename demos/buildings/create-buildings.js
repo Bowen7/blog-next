@@ -20,8 +20,8 @@ void vertexMain(VertexInput vsInput, inout vec3 positionMC) {
     fragmentShaderText: /* glsl */ `
 void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
   vec3 positionMC = fsInput.attributes.positionMC;
-  float width = 75.0;
-  float height = 75.0;
+  float width = 100.0;
+  float height = 100.0;
   if (dot(vec3(0.0, 0.0, 1.0), v_normalMC) > 0.95) {
     material.diffuse = vec3(0.079, 0.107, 0.111);
     return;
