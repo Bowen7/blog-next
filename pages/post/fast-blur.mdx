@@ -14,23 +14,20 @@ export const meta = {
 
 本文主要是针对高斯模糊算法进行优化，最后在线性时间内实现高斯模糊效果。当然，该算法并非本人原创，实现过程中也借鉴了一些文章和论文，相关链接都在文末贴出
 
-搭配阅读，我写了一个简单的Demo，[Demo链接](/demos/blur)，[Demo代码地址](https://github.com/Bowen7/blog-next/tree/main/demos/blur)，可以在Demo中测试各种模糊效果及其耗时
+搭配阅读，我写了一个简单的 Demo，[Demo 链接](/demos/blur)，[Demo 代码地址](https://github.com/Bowen7/blog-next/tree/main/demos/blur)，可以在 Demo 中测试各种模糊效果及其耗时
 
 ### 高斯模糊
 
 高斯模糊可以实现非常平滑的模糊效果，对于每一个像素，它会取它本身及其周围一定范围内的像素，去计算模糊后的效果，当然，每个像素在计算过程中所占的权重并不相同，距离其本身越近，权重越高——这当然是合理的。权重的计算公式如下：
 
-```dual
 $G(x,y)=\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}$
-:
-![weight计算公式](/demos/blur/gaussian.svg)
-```
 
-公式中的σ(sigma)是人为定值的，值越大，生成的图像越模糊
+公式中的 σ(sigma)是人为定值的，值越大，生成的图像越模糊
 
-当然，并非所有像素都会互相影响，以当前像素为圆心，取一个半径，在这个半径以内的像素才会影响该像素的模糊效果。这个半径与sigma成正比，不过没有统一的公式，在[这个提问](https://stackoverflow.com/questions/17841098/gaussian-blur-standard-deviation-radius-and-kernel-size)下，有回答说NVidia采用的是radius=sigma*3的计算方式，我在这也使用了这个公式
+当然，并非所有像素都会互相影响，以当前像素为圆心，取一个半径，在这个半径以内的像素才会影响该像素的模糊效果。这个半径与 sigma 成正比，不过没有统一的公式，在[这个提问](https://stackoverflow.com/questions/17841098/gaussian-blur-standard-deviation-radius-and-kernel-size)下，有回答说 NVidia 采用的是 radius=sigma\*3 的计算方式，我在这也使用了这个公式
 
-下面是其基本实现，时间复杂度为O(nr^2)，n为图片大小
+下面是其基本实现，时间复杂度为 O(nr^2)，n 为图片大小
+
 ```js
 function gaussianBlur(src, dest, width, height, sigma) {
   const radius = Math.round(sigma * 3) // kernel size
@@ -90,30 +87,25 @@ function simpleBoxBlur(src, dest, width, height, radius) {
 }
 ```
 
-radius=15的效果(775ms)：
+radius=15 的效果(775ms)：
 ![简单方框模糊](/demos/blur/simple-box.png)
 
 可以看出，虽然耗时较高斯模糊短，但其效果是很不平滑的。那有没有办法让方框模糊拥有高斯模糊一样的品质呢，[这篇论文](https://www.peterkovesi.com/papers/FastGaussianSmoothing.pdf)提出了方案
 
 根据论文中所述，可以通过多次的方框模糊实现高斯模糊，而这多次方框模糊的方框由以下步骤得出：
 
-- 由下方公式(n为模糊次数)计算得出wideal，再计算wl和wu，wl为第一个小于等于wideal的奇数，wu是第一个大于等于wideal的奇数(很明显wu = wl+2)(要求奇数的原因是size=radius*2+1)
+- 由下方公式(n 为模糊次数)计算得出 wideal，再计算 wl 和 wu，wl 为第一个小于等于 wideal 的奇数，wu 是第一个大于等于 wideal 的奇数(很明显 wu = wl+2)(要求奇数的原因是 size=radius\*2+1)
 
-```dual
 $w_{ideal} = \sqrt{\frac{12\sigma^2}{n}+1}$
-:
-![公式1](/demos/blur/formula1.png)
-```
-- 计算m：
 
-```dual
+- 计算 m：
+
 ${m = \frac{12\sigma^2-nw_l^2-4nw_l-3n}{-4w_l-4}}$
-:
-![公式2](/demos/blur/formula2.png)
-```
-- 前m次用wl作方框的大小，其余的n-m次用wu作方框的大小
+
+- 前 m 次用 wl 作方框的大小，其余的 n-m 次用 wu 作方框的大小
 
 化作代码：
+
 ```js
 function genKernelsForGaussian(sigma, n) {
   const wIdeal = Math.sqrt((12 * Math.pow(sigma, 2)) / n + 1)
@@ -145,11 +137,12 @@ function boxBlur(src, dest, width, height, sigma) {
 
 效果和高斯模糊基本一致(227ms)：
 ![box](/demos/blur/box.png)
-虽然时间复杂度与高斯模糊相同，但得到的半径更小，在sigma=5，n=3的情况下，radius=[4, 4, 5]，高斯模糊则是15；同时还不用计算复杂的weight，所以从实际结果上看，速度要优于高斯模糊
+虽然时间复杂度与高斯模糊相同，但得到的半径更小，在 sigma=5，n=3 的情况下，radius=[4, 4, 5]，高斯模糊则是 15；同时还不用计算复杂的 weight，所以从实际结果上看，速度要优于高斯模糊
 
 ### 水平&垂直模糊
 
 在[这篇文章](http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf)中提到 方框模糊可以用水平模糊+垂直模糊替代实现。要实现水平/垂直模糊很简单, 只需考虑水平/垂直线上的像素即可：
+
 ```js
 // horizontal motion blur
 function hMotionBlur(src, dest, width, height, radius) {
@@ -180,7 +173,8 @@ function vMotionBlur(src, dest, width, height, radius) {
 }
 ```
 
-应用此优化的模糊算法，时间复杂度可以优化到O(nr)：
+应用此优化的模糊算法，时间复杂度可以优化到 O(nr)：
+
 ```js
 function _mutantBoxBlur(src, dest, width, height, radius) {
   hMotionBlur(dest, src, width, height, radius)
@@ -205,28 +199,17 @@ function mutantBoxBlur(src, dest, width, height, sigma) {
 
 以水平模糊为例，相邻两个像素点计算公式（这里为了方便理解，使用了二位数组，实际计算中是一唯的；并且没有考虑边界情况）：
 
-```dual
 $dest[i][j]=\frac{src[i][j-r]+...+src[i][j]+...src[i][j+r]}{2r+1}$
-:
-![公式3](/demos/blur/formula3.png)
-```
 
-```dual
 $dest[i][j+1]=\frac{src[i][j+1-r]+...+src[i][j+1]+...src[i][j+1+r]}{2r+1}$
-:
-![公式4](/demos/blur/formula4.png)
-```
 
 可以看出，两个公式的差别很小：dest[i][j] 的公式多了一个 src[i][j−r]，dest[i][j+1] 的多了一个 src[i][j+1+r]
 
 那么就有
-```dual
 $dest[i][j+1]=dest[i][j]+\frac{src[i][j+1+r]-src[i][j-r]}{2r+1}$
-:
-![公式5](/demos/blur/formula5.png)
-```
 
-所以，在计算模糊像素时，不必再遍历半径 r 内的像素，而是直接与上一像素关联，节省了 O(r) 的时间复杂度。可以借此优化将时间复杂度由O(nr)降到O(n)，最终的代码:
+所以，在计算模糊像素时，不必再遍历半径 r 内的像素，而是直接与上一像素关联，节省了 O(r) 的时间复杂度。可以借此优化将时间复杂度由 O(nr)降到 O(n)，最终的代码:
+
 ```js
 // horizontal fast motion blur
 function hFastMotionBlur(src, dest, width, height, radius) {
@@ -279,12 +262,13 @@ function fastBlur(src, dest, width, height, sigma) {
   _fastBlur(src, dest, width, height, (boxes[2] - 1) / 2)
 }
 ```
+
 效果(20ms)：
 ![fast](/demos/blur/fast.png)
 
 ### 总结
 
-先后通过多次方框模糊、水平+垂直模糊代替方框模糊、对水平/垂直模糊计算过程的优化，逐步将高斯模糊的耗时降低，最后得到了只与图片大小相关的O(n)时间复杂度算法
+先后通过多次方框模糊、水平+垂直模糊代替方框模糊、对水平/垂直模糊计算过程的优化，逐步将高斯模糊的耗时降低，最后得到了只与图片大小相关的 O(n)时间复杂度算法
 
 #### 参考
 
