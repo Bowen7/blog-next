@@ -33,4 +33,11 @@ const plugins = [
   ],
   [withTM]
 ]
-module.exports = withPlugins(plugins)
+
+const nextConfig = {
+  env: {
+    CESIUM_TOKEN: process.env.CESIUM_TOKEN,
+    MAPBOX_TOKEN: process.env.MAPBOX_TOKEN
+  }
+}
+module.exports = withPlugins(plugins, nextConfig)
