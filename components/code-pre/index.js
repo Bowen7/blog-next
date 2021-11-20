@@ -74,8 +74,8 @@ function CodePre({ children }) {
           width: 1rem;
           height: 1rem;
           position: absolute;
-          top: 1rem;
-          right: 1rem;
+          top: 0;
+          right: 0rem;
           // reset
           max-width: initial;
           cursor: pointer;
@@ -85,9 +85,10 @@ function CodePre({ children }) {
         }
         .code-pre,
         .code > :global(pre) {
-          padding: 1em;
+          padding: 1em 1em 0 1em;
           overflow: auto;
           font-size: 14px;
+          margin: 0;
         }
       `}</style>
     </>
