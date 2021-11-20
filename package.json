@@ -4,15 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run sitemap && next build",
-    "start": "next start",
-    "sitemap": "node ./customs/sitemap.js"
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@geist-ui/react": "^2.1.0-canary.2",
-    "@mapbox/rehype-prism": "^0.5.0",
     "@mdx-js/loader": "^1.6.22",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
@@ -22,16 +20,13 @@
     "mdast-util-to-markdown": "^0.6.1",
     "next": "^10.0.0",
     "next-compose-plugins": "^2.2.1",
-    "next-pwa": "^5.0.0",
     "next-transpile-modules": "^6.0.0",
-    "pangu": "^4.0.7",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "rehype-katex": "^3.0.0",
     "remark-math": "^2.0.0",
-    "styled-components": "^5.2.1",
-    "unist-util-remove": "^2.0.1",
-    "unist-util-visit": "^2.0.3"
+    "shiki": "^0.9.12",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.12.0",
@@ -42,7 +37,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "globby": "^11.0.2",
-    "prettier": "^2.2.1",
-    "require-from-string": "^2.0.2"
+    "prettier": "^2.2.1"
   }
 }

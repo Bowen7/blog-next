@@ -4,32 +4,32 @@ export const meta = {
   tags: ['Promise']
 }
 
-之前也手写过简单的 promise，这次则是为了通过官方的 Promise A+测试集，借鉴了一些下载量较多的 promise polyfill，改了几遍，终于是通过了 A+规范的 872 个测试用例
+之前也手写过简单的 promise，这次则是为了通过官方的 Promise A+ 测试集，借鉴了一些下载量较多的 promise polyfill，改了几遍，终于是通过了 A+ 规范的 872 个测试用例
 
 ### 如何测试？
 
-测试库地址在这：[promises-tests](https://github.com/promises-aplus/promises-tests) ，大家在写完自己的 promise 后，不妨也去测试一下，检验自己的 promise 是否符合 Promise A+规范。这个库使用起来很方便，像下面这样就可以了：
+测试库地址在这：[promises-tests](https://github.com/promises-aplus/promises-tests) ，大家在写完自己的 promise 后，不妨也去测试一下，检验自己的 promise 是否符合 Promise A+ 规范。这个库使用起来很方便，像下面这样就可以了：
 
 ```js
-const tests = require("promises-aplus-tests");
-const Promise = require("./index");
+const tests = require('promises-aplus-tests')
+const Promise = require('./index')
 
-const deferred = function() {
-  let resolve, reject;
-  const promise = new Promise(function(_resolve, _reject) {
-    resolve = _resolve;
-    reject = _reject;
-  });
+const deferred = function () {
+  let resolve, reject
+  const promise = new Promise(function (_resolve, _reject) {
+    resolve = _resolve
+    reject = _reject
+  })
   return {
     promise: promise,
     resolve: resolve,
     reject: reject
-  };
-};
+  }
+}
 const adapter = {
   deferred
-};
-tests.mocha(adapter);
+}
+tests.mocha(adapter)
 ```
 
 其中，index.js 中是你写的 Promise
@@ -39,8 +39,8 @@ tests.mocha(adapter);
 首先我们定义一些全局属性：
 
 ```js
-const IS_ERROR = {};
-let ERROR = null;
+const IS_ERROR = {}
+let ERROR = null
 ```
 
 `IS_ERROR`作为发生错误时的标识，`ERROR`用来保存错误；
@@ -49,10 +49,10 @@ let ERROR = null;
 
 ```js
 function _Promise(fn) {
-  this._status = 0;
-  this._value = null;
-  this._handlers = [];
-  doFn(this, fn);
+  this._status = 0
+  this._value = null
+  this._handlers = []
+  doFn(this, fn)
 }
 ```
 
@@ -62,15 +62,15 @@ function _Promise(fn) {
 function doFn(self, fn) {
   const ret = safeCallTwo(
     fn,
-    function(value) {
-      self.resolve(value);
+    function (value) {
+      self.resolve(value)
     },
-    function(reason) {
-      self.reject(reason);
+    function (reason) {
+      self.reject(reason)
     }
-  );
+  )
   if (ret === IS_ERROR) {
-    self.reject(ERROR);
+    self.reject(ERROR)
   }
 }
 ```
@@ -80,10 +80,10 @@ function doFn(self, fn) {
 ```js
 function safeCallTwo(fn, arg1, arg2) {
   try {
-    return fn(arg1, arg2);
+    return fn(arg1, arg2)
   } catch (error) {
-    ERROR = error;
-    return IS_ERROR;
+    ERROR = error
+    return IS_ERROR
   }
 }
 ```
@@ -93,32 +93,32 @@ function safeCallTwo(fn, arg1, arg2) {
 \_Promise 原型上挂载着 resolve 和 reject 方法，如下：
 
 ```js
-_Promise.prototype.resolve = function(value) {
+_Promise.prototype.resolve = function (value) {
   if (this._status !== 0) {
-    return;
+    return
   }
-  this._status = 1;
-  this._value = value;
-  doThen(this);
-};
-_Promise.prototype.reject = function(reason) {
+  this._status = 1
+  this._value = value
+  doThen(this)
+}
+_Promise.prototype.reject = function (reason) {
   if (this._status !== 0) {
-    return;
+    return
   }
-  this._status = 2;
-  this._value = reason;
-  doThen(this);
-};
+  this._status = 2
+  this._value = reason
+  doThen(this)
+}
 ```
 
 因为 Promise 的状态只能由`pending`转为`resolved`和`rejected`，所以在执行 resolve 和 reject 方法时，要先判断 status 是否为 0，若不为 0，直接 return；修改 status 和 value 后，执行 doThen 方法:
 
 ```js
 function doThen(self) {
-  const handlers = self._handlers;
-  handlers.forEach(handler => {
-    doHandler(self, handler);
-  });
+  const handlers = self._handlers
+  handlers.forEach((handler) => {
+    doHandler(self, handler)
+  })
 }
 ```
 
@@ -127,11 +127,11 @@ doThen 函数的作用是从 self 上取出的 handlers 并依次执行
 我们再来看一看挂载在原型上的 then 方法：
 
 ```js
-_Promise.prototype.then = function(onResolve, onReject) {
-  const res = new _Promise(function() {});
-  preThen(this, onResolve, onReject, res);
-  return res;
-};
+_Promise.prototype.then = function (onResolve, onReject) {
+  const res = new _Promise(function () {})
+  preThen(this, onResolve, onReject, res)
+  return res
+}
 ```
 
 我们知道，Promise 是支持链式调用的，所以我们的 then 方法也会返回一个 Promise，以供后续调用；
@@ -140,18 +140,18 @@ _Promise.prototype.then = function(onResolve, onReject) {
 
 ```js
 function preThen(self, onResolve, onReject, res) {
-  onResolve = typeof onResolve === "function" ? onResolve : null;
-  onReject = typeof onReject === "function" ? onReject : null;
+  onResolve = typeof onResolve === 'function' ? onResolve : null
+  onReject = typeof onReject === 'function' ? onReject : null
   const handler = {
     onResolve,
     onReject,
     promise: res
-  };
-  if (self._status === 0) {
-    self._handlers.push(handler);
-    return;
   }
-  doHandler(self, handler);
+  if (self._status === 0) {
+    self._handlers.push(handler)
+    return
+  }
+  doHandler(self, handler)
 }
 ```
 
@@ -164,34 +164,34 @@ doHandler 函数代码见下：
 ```js
 function doHandler(self, handler) {
   setTimeout(() => {
-    const { onReject, onResolve, promise } = handler;
-    const { _status, _value } = self;
-    const handlerFun = _status === 1 ? onResolve : onReject;
+    const { onReject, onResolve, promise } = handler
+    const { _status, _value } = self
+    const handlerFun = _status === 1 ? onResolve : onReject
     if (handlerFun === null) {
-      _status === 1 ? promise.resolve(_value) : promise.reject(_value);
-      return;
+      _status === 1 ? promise.resolve(_value) : promise.reject(_value)
+      return
     }
-    const ret = safeCallOne(handlerFun, _value);
+    const ret = safeCallOne(handlerFun, _value)
     if (ret === IS_ERROR) {
-      promise.reject(ERROR);
-      return;
+      promise.reject(ERROR)
+      return
     }
-    promise.resolve(ret);
-  });
+    promise.resolve(ret)
+  })
 }
 ```
 
 我们知道，即使是同步执行 relove 或者 reject，then 函数接受的回调函数也不会立刻同步执行，如下代码会依次输出 1，3，2，而非 1，2，3
 
 ```js
-const p = new Promise(resolve => {
-  console.log(1);
-  resolve();
-});
+const p = new Promise((resolve) => {
+  console.log(1)
+  resolve()
+})
 p.then(() => {
-  console.log(2);
-});
-console.log(3);
+  console.log(2)
+})
+console.log(3)
 ```
 
 在这里，我使用了 setTimeout 来模拟这种模式，当然，这只是一种粗糙的模拟，更好的方式是引入或实现类似 asap 的库（下个星期我可能会实现这个，哈哈），但 setTimeout 也足够通过测试了
@@ -207,39 +207,39 @@ doHandler 函数中，我们调用相应的回调函数，需要注意的是，�
 我们再来修改 resolve 方法：
 
 ```js
-_Promise.prototype.resolve = function(value) {
+_Promise.prototype.resolve = function (value) {
   if (this._status !== 0) {
-    return;
+    return
   }
   if (this === value) {
-    return this.reject(new TypeError("cant's resolve itself"));
+    return this.reject(new TypeError("cant's resolve itself"))
   }
-  if (value && (typeof value === "function" || typeof value === "object")) {
-    const then = getThen(value);
+  if (value && (typeof value === 'function' || typeof value === 'object')) {
+    const then = getThen(value)
     if (then === IS_ERROR) {
-      this.reject(ERROR);
-      return;
+      this.reject(ERROR)
+      return
     }
     if (value instanceof _Promise) {
       value.then(
-        value => {
-          this.resolve(value);
+        (value) => {
+          this.resolve(value)
         },
-        reason => {
-          this.reject(reason);
+        (reason) => {
+          this.reject(reason)
         }
-      );
-      return;
+      )
+      return
     }
-    if (typeof then === "function") {
-      doFn(this, then.bind(value));
-      return;
+    if (typeof then === 'function') {
+      doFn(this, then.bind(value))
+      return
     }
   }
-  this._status = 1;
-  this._value = value;
-  doThen(this);
-};
+  this._status = 1
+  this._value = value
+  doThen(this)
+}
 ```
 
 先判断 this 和 value 是否为一个 Promise，若是一个，则抛出错误
@@ -249,10 +249,10 @@ _Promise.prototype.resolve = function(value) {
 ```js
 function getThen(self) {
   try {
-    return self.then;
+    return self.then
   } catch (error) {
-    ERROR = error;
-    return IS_ERROR;
+    ERROR = error
+    return IS_ERROR
   }
 }
 ```
@@ -262,28 +262,28 @@ function getThen(self) {
 若 then 为 function，则将 then 函数以 value 为 this 值，当作 fn 执行，也就是达成下面代码的效果：
 
 ```js
-const p = new Promise(resolve => {
+const p = new Promise((resolve) => {
   resolve({
-    then: _resolve => {
-      _resolve(1);
+    then: (_resolve) => {
+      _resolve(1)
     }
-  });
-});
-p.then(value => console.log(value)); //打印1
+  })
+})
+p.then((value) => console.log(value)) //打印1
 ```
 
 我们再次执行测试，发现仍然有错，其因出现在下面这种情况下：
 
 ```js
-const p = new _Promise(resolve => {
+const p = new _Promise((resolve) => {
   resolve({
-    then: _resolve => {
-      setTimeout(() => _resolve(1)), 500;
+    then: (_resolve) => {
+      setTimeout(() => _resolve(1)), 500
     }
-  });
-  resolve(2);
-});
-p.then(value => console.log(value));
+  })
+  resolve(2)
+})
+p.then((value) => console.log(value))
 ```
 
 这个时候，使用我们的 Promise，输出的是 2，而在规范中，应当是输出 1
@@ -294,30 +294,30 @@ p.then(value => console.log(value));
 
 ```js
 function doFn(self, fn) {
-  let done = false;
+  let done = false
   const ret = safeCallTwo(
     fn,
-    function(value) {
+    function (value) {
       if (done) {
-        return;
+        return
       }
-      done = true;
-      self.resolve(value);
+      done = true
+      self.resolve(value)
     },
-    function(reason) {
+    function (reason) {
       if (done) {
-        return;
+        return
       }
-      done = true;
-      self.reject(reason);
+      done = true
+      self.reject(reason)
     }
-  );
+  )
   if (ret === IS_ERROR) {
     if (done) {
-      return;
+      return
     }
-    done = true;
-    self.reject(ERROR);
+    done = true
+    self.reject(ERROR)
   }
 }
 ```

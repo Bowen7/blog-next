@@ -11,7 +11,7 @@ const Brand = styled.p`
   font-size: 1.5rem;
   cursor: pointer;
   margin-top: 0;
-  color: #595959;
+  color: #000;
 `
 const Logo = styled.img`
   width: 80px;
@@ -40,9 +40,11 @@ export default function Header({ page }) {
         <Link href="/">
           <Logo src="/icons/logo.svg" />
         </Link>
-        <Link href="/">
-          <Brand>Bowen Codes</Brand>
-        </Link>
+        {page === '' && (
+          <Link href="/">
+            <Brand>Bowen Codes</Brand>
+          </Link>
+        )}
       </StyledHeader>
       {page === '' && (
         <Nav>

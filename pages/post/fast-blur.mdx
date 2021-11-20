@@ -141,7 +141,7 @@ function boxBlur(src, dest, width, height, sigma) {
 
 ### 水平&垂直模糊
 
-在[这篇文章](http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf)中提到 方框模糊可以用水平模糊+垂直模糊替代实现。要实现水平/垂直模糊很简单, 只需考虑水平/垂直线上的像素即可：
+在[这篇文章](http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf)中提到 方框模糊可以用水平模糊 + 垂直模糊替代实现。要实现水平 / 垂直模糊很简单, 只需考虑水平 / 垂直线上的像素即可：
 
 ```js
 // horizontal motion blur
@@ -208,7 +208,7 @@ $dest[i][j+1]=\frac{src[i][j+1-r]+...+src[i][j+1]+...src[i][j+1+r]}{2r+1}$
 那么就有
 $dest[i][j+1]=dest[i][j]+\frac{src[i][j+1+r]-src[i][j-r]}{2r+1}$
 
-所以，在计算模糊像素时，不必再遍历半径 r 内的像素，而是直接与上一像素关联，节省了 O(r) 的时间复杂度。可以借此优化将时间复杂度由 O(nr)降到 O(n)，最终的代码:
+所以，在计算模糊像素时，不必再遍历半径 r 内的像素，而是直接与上一像素关联，节省了 O(r) 的时间复杂度。可以借此优化将时间复杂度由 O(nr) 降到 O(n)，最终的代码:
 
 ```js
 // horizontal fast motion blur
@@ -268,7 +268,7 @@ function fastBlur(src, dest, width, height, sigma) {
 
 ### 总结
 
-先后通过多次方框模糊、水平+垂直模糊代替方框模糊、对水平/垂直模糊计算过程的优化，逐步将高斯模糊的耗时降低，最后得到了只与图片大小相关的 O(n)时间复杂度算法
+先后通过多次方框模糊、水平+垂直模糊代替方框模糊、对水平 / 垂直模糊计算过程的优化，逐步将高斯模糊的耗时降低，最后得到了只与图片大小相关的 O(n) 时间复杂度算法
 
 #### 参考
 

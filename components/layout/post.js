@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 import { MDXProvider } from '@mdx-js/react'
 import styled from 'styled-components'
-import CodePre from '../codePre'
+import CodePre from '../code-pre'
 import { timeFormat } from '../../utils'
 const Info = styled.div`
   display: flex;

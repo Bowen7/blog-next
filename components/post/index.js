@@ -9,11 +9,9 @@ const StyledPost = styled.div`
 const TitleWrap = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 `
 const Title = styled.a`
-  margin: 0 1rem 0 0;
   text-decoration: none;
 `
 
@@ -23,13 +21,11 @@ const Post = ({ time, title, name, tags = [] }) => (
       <Link key={title} href={'/post/' + name} passHref>
         <Title>{title}</Title>
       </Link>
-      <div>
-        {tags.map((tag) => (
-          <span className="tag" key={tag}>
-            {tag}
-          </span>
-        ))}
-      </div>
+      {tags.map((tag) => (
+        <span className="tag" key={tag}>
+          {tag}
+        </span>
+      ))}
     </TitleWrap>
     <time>{timeFormat(time)}</time>
   </StyledPost>
